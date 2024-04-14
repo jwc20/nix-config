@@ -5,25 +5,30 @@ let
         sha256 = "1shml3mf52smfra0x3mpfixddr4krp3n78fc2sv07ghiphn22k43";
     }) { });
 
-    my-awesome-script = import ./my-awesome-script.nix { inherit pkgs; };
     stdenv = pkgs.stdenv;
 
 in pkgs.mkShell rec {
     name = "nix-shell";
     shellHook = ''
         source .bashrc
+        echo "THIS IS A NIX SHELL!" | ${pkgs.cowsay}/bin/cowsay | ${pkgs.lolcat}/bin/lolcat
     '';
+
+    COLOR = "blue";
+
+    # PASSWORD = import ./password.nix;
+
     buildInputs = (with pkgs; [
-        my-awesome-script
         bashInteractive
         curl
         gnugrep
         nix-prefetch-scripts
         tree
         which
-        (pkgs.python3.buildEnv.override {
+        (pkgs.python38.buildEnv.override {
             ignoreCollisions = true;
-            extraLibs = with pkgs.python3.pkgs; [
+            extraLibs = with pkgs.python38.pkgs; [
+            pprintpp
             ];
         })
     ]);
