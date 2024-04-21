@@ -13,6 +13,7 @@ in pkgs.mkShell rec {
     '';
     buildInputs = (with pkgs; [
         bashInteractive
+        systemd
         curl
         git
         gnugrep
@@ -22,14 +23,15 @@ in pkgs.mkShell rec {
         tmux
         tree
         which
-        visidata
         (pkgs.python3.buildEnv.override {
             ignoreCollisions = true;
             extraLibs = with pkgs.python3.pkgs; [
+                beautifulsoup4
+                lxml
                 pprintpp
                 python-dotenv
-                black
-                visidata
+                requests
+                selenium
             ];
         })
     ]);
